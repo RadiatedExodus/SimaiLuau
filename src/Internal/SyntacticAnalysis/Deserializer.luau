@@ -32,7 +32,7 @@ function Deserializer.GetChart(self: Deserializer): MaiChart.MaiChart
     local manuallyMoved = false
     while ((not self.EndOfFile) and (manuallyMoved or self:MoveNext())) do
         local token   = self.Tokens[self.CurrentIndex] :: Token.Token
-        manuallyMoved = true
+        manuallyMoved = false
         if (token.Type == TokenType.Tempo) then
             TempoReader.Process(self, token)
         elseif (token.Type == TokenType.Subdivision) then
@@ -45,7 +45,7 @@ function Deserializer.GetChart(self: Deserializer): MaiChart.MaiChart
                 end
             else
                 local note = NoteReader.Process(self, token)
-                self.CurrentNoteCollection.AddNote(note)
+                self.CurrentNoteCollection:AddNote(note)
                 manuallyMoved = true
                 self.__MaxFinishTime = math.max(self.__MaxFinishTime, self.CurrentNoteCollection.Time + note:GetVisibleDuration())
             end
