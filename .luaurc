@@ -2,5 +2,10 @@
 	"languageMode": "strict",
 	"lint": { "*": true },
 	"lintErrors": false,
-	"globals": []
+	"globals": [],
+	"aliases": {
+		"lune": "~/.lune/.typedefs/0.10.4/",
+		"frktest": "./external/frktest/src",
+		"SimaiLuau": "./src"
+	}
 }
