@@ -8,10 +8,8 @@ export type SimaiFile = setmetatable<{
 }, typeof(SimaiFile)>
 
 local function StringTrimEnd(s: string): string
-    if (string.sub(s, #s, #s) == "\n") then
-        return string.sub(s, 1, #"\n")
-    end
-    return s
+    local ns = string.gsub(s, "%s+$", "")
+    return ns
 end
 
 local function StringConcatTrimmedEnd(s: {string}, separator: string): string
@@ -31,8 +29,8 @@ function SimaiFile.ToKeyValuePairs(self: SimaiFile): {[string]: string}
             end
             
             local kvSplit = string.split(line, "=")
-            key = string.sub(kvSplit[1], 2)
-            table.insert(value, kvSplit[2] or "")
+            key = string.sub(table.remove(kvSplit, 1) :: string, 2)
+            table.insert(value, table.concat(kvSplit, "="))
         else
             table.insert(value, line)
         end
@@ -61,7 +59,8 @@ function SimaiFile.GetValue(self: SimaiFile, key: string): string?
             end
             
             local kvSplit = string.split(line, "=")
-            table.insert(result, kvSplit[2] or "")
+            table.remove(kvSplit, 1)
+            table.insert(result, table.concat(kvSplit, "="))
             readingValue = true
         elseif (readingValue) then
             table.insert(result, line)

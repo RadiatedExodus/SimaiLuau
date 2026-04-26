@@ -56,6 +56,7 @@ local function ReadDuration(timing: TimingChange.TimingChange, token: Token.Toke
     if (indexOfHash ~= nil) then
         local tempo = tonumber(string.sub(token.Lexeme, 1, indexOfHash - 1))
         assert(tempo, `unexpected character at {token.Line}@{token.Character + 1}, expected 0~9, or "."`)
+        timing = Extensions.CloneTimingChange(timing)
         timing.Tempo = tempo
     end
 

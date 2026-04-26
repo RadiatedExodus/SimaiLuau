@@ -1,6 +1,14 @@
 --!strict
 local NoteGroup = require("./NoteGroup")
 
+local GROUP_TO_SENSORCHAR = {
+	[NoteGroup.ASensor] = "A",
+	[NoteGroup.BSensor] = "B",
+    [NoteGroup.CSensor] = "C",
+	[NoteGroup.DSensor] = "D",
+	[NoteGroup.ESensor] = "E",
+} :: { [NoteGroup.NoteGroup]: "A" | "B" | "C" | "D" | "E" }
+
 local Location = {}
 Location.__index     = Location
 
@@ -18,7 +26,7 @@ function Location.__tostring(self: Location): string
         return "C"
     end
 
-    return `{self.Group}{self.Index}`
+    return `{GROUP_TO_SENSORCHAR[self.Group]}{self.Index}`
 end
 
 function Location.__eq(self: Location, other: Location): boolean

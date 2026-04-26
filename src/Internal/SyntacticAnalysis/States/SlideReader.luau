@@ -56,9 +56,9 @@ end
 
 local function AssignVertices(parent: any, identityToken: Token.Token, segment: SlideSegment.SlideSegment)
     repeat
-        parent.currentIndex += 1
+        parent.CurrentIndex += 1
 
-        local current = parent.tokens[parent.currentIndex]
+        local current = parent.Tokens[parent.CurrentIndex]
         assert(current, `unexpected character at {identityToken.Line}@{identityToken.Character}, expected 1, 2, 3, 4, 5, 6, 7, 8`)
 
         local readLoc, location = Extensions.TryReadLocation(current)
@@ -71,7 +71,7 @@ end
 
 local function ReadDuration(timing: TimingChange.TimingChange, token: Token.Token, path: SlidePath.SlidePath)
     local startOfDurationDeclaration = 0
-    local overrideTiming             = timing
+    local overrideTiming             = Extensions.CloneTimingChange(timing)
 
     local firstHashIndex           = string.find(token.Lexeme, "#") :: number
     local statesIntroDelayDuration = firstHashIndex ~= nil
@@ -137,7 +137,7 @@ local function Process(parent: any, currentNote: Note.Note, identityToken: Token
             DecorateSlide(token, path)
         elseif (token.Type == TokenType.Slide) then
             local lastSegment = path.Segments[#path.Segments]
-            ReadSegment(parent, identityToken, lastSegment.Vertices[#lastSegment.Vertices], path)
+            ReadSegment(parent, token, lastSegment.Vertices[#lastSegment.Vertices], path)
             manuallyMoved = true
         elseif (token.Type == TokenType.Duration) then
             ReadDuration(parent.TimingChanges[#parent.TimingChanges], token, path)

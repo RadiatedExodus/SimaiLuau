@@ -9,7 +9,7 @@ local MaiChart = {}
 MaiChart.__index = MaiChart
 
 export type MaiChart = setmetatable<{
-    FinishTiming:    number,
+    FinishTiming:    number?,
     NoteCollections: {NoteCollection.NoteCollection},
     TimingChanges:   {TimingChange.TimingChange},
 }, typeof(MaiChart)>
@@ -17,9 +17,9 @@ export type MaiChart = setmetatable<{
 return {
     new = function(): MaiChart
         return setmetatable({
-            FinishTiming    = 0  :: number,
-            NoteCollections = {} :: {NoteCollection.NoteCollection},
-            TimingChanges   = {} :: {TimingChange.TimingChange},
+            FinishTiming    = nil :: number?,
+            NoteCollections = {}  :: {NoteCollection.NoteCollection},
+            TimingChanges   = {}  :: {TimingChange.TimingChange},
         }, MaiChart)
     end
 }

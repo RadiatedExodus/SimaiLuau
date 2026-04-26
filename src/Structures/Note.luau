@@ -85,7 +85,7 @@ return {
         return setmetatable({
             ParentCollection = parentCollection               :: any,
             SlidePaths       = {}                             :: {SlidePath.SlidePath},
-            Location         = Location.new(0, NoteGroup.Tap) :: Location.Location,
+            Location         = Location.new(1, NoteGroup.Tap) :: Location.Location,
             Styles           = {NoteStyles.None}              :: {NoteStyles.NoteStyles},
             Appearence       = NoteAppearence.Default         :: NoteAppearence.NoteAppearence,
             Type             = NoteType.Tap                   :: NoteType.NoteType,

@@ -36,7 +36,7 @@ return {
     new = function(segments: {SlideSegment.SlideSegment}): SlidePath
         return setmetatable({
             Segments      = segments,
-            StartLocation = Location.new(0, NoteGroup.Tap) :: Location.Location,
+            StartLocation = Location.new(1, NoteGroup.Tap) :: Location.Location,
             Delay         = 0,
             Duration      = 0,
             Type          = NoteType.Slide :: NoteType.NoteType

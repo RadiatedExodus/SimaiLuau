@@ -1,8 +1,9 @@
 --!strict
-local SlideType = require("../Structures/SlideType")
-local Location  = require("../Structures/Location")
-local NoteGroup = require("../Structures/NoteGroup")
-local Token     = require("./LexicalAnalysis/Token")
+local SlideType    = require("../Structures/SlideType")
+local Location     = require("../Structures/Location")
+local NoteGroup    = require("../Structures/NoteGroup")
+local Token        = require("./LexicalAnalysis/Token")
+local TimingChange = require("./SyntacticAnalysis/TimingChange")
 
 local SENSORCHAR_TO_NOTEGROUP = {
     A = NoteGroup.ASensor,
@@ -42,16 +43,24 @@ local function TryReadLocation(token: Token.Token): (boolean, Location.Location)
     if (isSensor) then
         group = SENSORCHAR_TO_NOTEGROUP[firstChar]
         if (group == NoteGroup.CSensor) then
-            return true, Location.new(0, group)
+            return true, Location.new(1, group)
         end
     end
 
     local indexInGroup = tonumber(indexRange)
     if (not indexInGroup) then
-        return false, Location.new(0, NoteGroup.Tap)
+        return false, Location.new(1, NoteGroup.Tap)
     end
 
-    return true, Location.new(indexInGroup - 1, group)
+    return true, Location.new(indexInGroup, group)
+end
+
+local function CloneTimingChange(tc: TimingChange.TimingChange): TimingChange.TimingChange
+    local new        = TimingChange.new()
+    new.Subdivisions = tc.Subdivisions
+    new.Tempo        = tc.Tempo
+    new.Time         = tc.Time
+    return new
 end
 
 local function StringLastIndexOf(text: string, pattern: string): number?
@@ -71,5 +80,6 @@ return {
     RemoveLineEndings = RemoveLineEndings,
     DetermineRingType = DetermineRingType,
     TryReadLocation   = TryReadLocation,
+    CloneTimingChange = CloneTimingChange,
     StringLastIndexOf = StringLastIndexOf,
 }

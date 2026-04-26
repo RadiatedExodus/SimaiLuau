@@ -1,7 +1,7 @@
 --!strict
-local MaiChart     = require("../../Structures/MaiChart")
-local EachStyle    = require("../../Structures/EachStyle")
-local NoteCollection = require("../../structures/NoteCollection")
+local MaiChart       = require("../../Structures/MaiChart")
+local EachStyle      = require("../../Structures/EachStyle")
+local NoteCollection = require("../../Structures/NoteCollection")
 
 --// source: chatgpt
 local EPSILON = 1e-6
@@ -52,7 +52,7 @@ function Serializer.Serialize(self: Serializer, chart: MaiChart.MaiChart): strin
         end
 
         if (self.__CurrentNoteCollection < #chart.NoteCollections) and (math.abs(chart.NoteCollections[self.__CurrentNoteCollection].Time - self.__CurrentTime) <= EPSILON) then
-            SerializeNoteCollection(chart.NoteCollections[self.__CurrentNoteCollection])
+            s ..= SerializeNoteCollection(chart.NoteCollections[self.__CurrentNoteCollection])
             self.__CurrentNoteCollection += 1
         end
 
@@ -68,8 +68,8 @@ end
 return {
     new = function(): Serializer
         return setmetatable({
-            __CurrentTimingChange   = 0,
-            __CurrentNoteCollection = 0,
+            __CurrentTimingChange   = 1,
+            __CurrentNoteCollection = 1,
             __CurrentTime           = 0,
         }, Serializer)
     end,
