@@ -65,12 +65,12 @@ local function AssignVertices(parent: any, identityToken: Token.Token, segment: 
         if (readLoc) then
             table.insert(segment.Vertices, location)
         end
-    until current.type ~= TokenType.Location
+    until current.Type ~= TokenType.Location
     return
 end
 
 local function ReadDuration(timing: TimingChange.TimingChange, token: Token.Token, path: SlidePath.SlidePath)
-    local startOfDurationDeclaration = 0
+    local startOfDurationDeclaration = 1
     local overrideTiming             = Extensions.CloneTimingChange(timing)
 
     local firstHashIndex           = string.find(token.Lexeme, "#") :: number

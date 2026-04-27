@@ -39,7 +39,7 @@ function Serializer.Serialize(self: Serializer, chart: MaiChart.MaiChart): strin
 	s ..= `\{\{{chart.TimingChanges[self.__CurrentTimingChange].Subdivisions}}}`
 
     while (self.__CurrentTime <= (chart.FinishTiming or 0)) do
-        if (self.__CurrentTimingChange < (#chart.TimingChanges - 1)) and (math.abs(chart.TimingChanges[self.__CurrentTimingChange + 1].Time - self.__CurrentTime) < EPSILON) then
+        if (self.__CurrentTimingChange < #chart.TimingChanges) and (math.abs(chart.TimingChanges[self.__CurrentTimingChange + 1].Time - self.__CurrentTime) <= EPSILON) then
             self.__CurrentTimingChange += 1
 
             if (math.abs(chart.TimingChanges[self.__CurrentTimingChange].Tempo - chart.TimingChanges[self.__CurrentTimingChange - 1].Tempo) > EPSILON) then
@@ -47,11 +47,11 @@ function Serializer.Serialize(self: Serializer, chart: MaiChart.MaiChart): strin
             end
 
             if (math.abs(chart.TimingChanges[self.__CurrentTimingChange].Subdivisions - chart.TimingChanges[self.__CurrentTimingChange - 1].Subdivisions) > EPSILON) then
-                s ..= `\{\{{chart.TimingChanges[self.__CurrentTimingChange].Subdivisions}}}`
+                s ..= `\{{chart.TimingChanges[self.__CurrentTimingChange].Subdivisions}}`
             end
         end
 
-        if (self.__CurrentNoteCollection < #chart.NoteCollections) and (math.abs(chart.NoteCollections[self.__CurrentNoteCollection].Time - self.__CurrentTime) <= EPSILON) then
+        if (self.__CurrentNoteCollection <= #chart.NoteCollections) and (math.abs(chart.NoteCollections[self.__CurrentNoteCollection].Time - self.__CurrentTime) <= EPSILON) then
             s ..= SerializeNoteCollection(chart.NoteCollections[self.__CurrentNoteCollection])
             self.__CurrentNoteCollection += 1
         end

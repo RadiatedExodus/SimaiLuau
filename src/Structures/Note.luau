@@ -70,8 +70,8 @@ function Note.Get(self: Note): string
         s ..= string.format("h[#%.7f]", self.Length)
     end
 
-    for _, path in self.SlidePaths do
-        if (table.find(self.SlidePaths, path) ~= 1) then
+    for i, path in self.SlidePaths do
+        if (i > 1) then
             s ..= "*"
         end
         s ..= path:Get()
